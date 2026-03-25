@@ -85,6 +85,11 @@ public class ProductDetailFragment extends BaseFragment<FragmentProductDetailBin
         }
 
         Toast.makeText(requireContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+
+        // Cập nhật badge ở MainActivity
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).updateCartBadge();
+        }
     }
 
     @Override
