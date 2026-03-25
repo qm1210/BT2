@@ -14,10 +14,12 @@ public class Order {
     private int id;
     private String orderDate;
     private int userId;
+    private String status; // "PENDING", "PAID"
 
-    public Order(String orderDate, int userId) {
+    public Order(String orderDate, int userId, String status) {
         this.orderDate = orderDate;
         this.userId = userId;
+        this.status = status;
     }
 
     public int getId() { return id; }
@@ -26,4 +28,6 @@ public class Order {
     public void setOrderDate(String orderDate) { this.orderDate = orderDate; }
     public int getUserId() { return userId; }
     public void setUserId(int userId) { this.userId = userId; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

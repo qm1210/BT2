@@ -63,12 +63,12 @@ public class ProductDetailFragment extends BaseFragment<FragmentProductDetailBin
 
         int userId = preferenceManager.getUserId();
         
-        // 1. Tìm hoặc tạo Order cho User
-        Order order = db.orderDao().getLastOrderByUserId(userId);
+        // 1. Tìm hoặc tạo Order "PENDING" cho User
+        Order order = db.orderDao().getPendingOrderByUserId(userId);
         int orderId;
         if (order == null) {
             String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
-            Order newOrder = new Order(currentDate, userId);
+            Order newOrder = new Order(currentDate, userId, "PENDING");
             orderId = (int) db.orderDao().insert(newOrder);
         } else {
             orderId = order.getId();
@@ -86,7 +86,6 @@ public class ProductDetailFragment extends BaseFragment<FragmentProductDetailBin
 
         Toast.makeText(requireContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
 
-        // Cập nhật badge ở MainActivity
         if (getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).updateCartBadge();
         }
@@ -98,7 +97,7 @@ public class ProductDetailFragment extends BaseFragment<FragmentProductDetailBin
 
         if (product != null) {
             binding.tvDetailName.setText("Name: " + product.getName());
-            binding.tvDetailPrice.setText(String.format("Price: $%.2f", product.getPrice()));
+            binding.tvDetailPrice.setText(String.format(Locale.getDefault(), "Price: $%.2f", product.getPrice()));
             
             Category category = db.categoryDao().getCategoryById(product.getCategoryId());
             if (category != null) {
