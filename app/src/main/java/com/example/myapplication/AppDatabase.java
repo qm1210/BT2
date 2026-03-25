@@ -11,7 +11,8 @@ public abstract class AppDatabase extends RoomDatabase {
     private static volatile AppDatabase instance;
 
     public abstract UserDao userDao();
-    // Add other DAOs here
+    public abstract CategoryDao categoryDao();
+    public abstract ProductDao productDao();
 
     public static AppDatabase getInstance(Context context) {
         if (instance == null) {
@@ -20,6 +21,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     instance = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "shop_database")
                             .fallbackToDestructiveMigration()
+                            .allowMainThreadQueries() // Only for simplicity in this exercise
                             .build();
                 }
             }
